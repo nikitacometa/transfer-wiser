@@ -11,7 +11,9 @@ public class Main {
 
         var servletHolder = contextHandler.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         servletHolder.setInitOrder(0);
-        servletHolder.setInitParameter("jersey.config.server.provider.classnames", AccountService.class.getCanonicalName());
+        //TODO: auto-build classnames string from package
+        servletHolder.setInitParameter("jersey.config.server.provider.classnames",
+                AccountService.class.getCanonicalName());
 
         var server = new Server(8080);
         server.setHandler(contextHandler);
