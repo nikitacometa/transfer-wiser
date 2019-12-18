@@ -6,16 +6,24 @@ import fun.wackloner.transferwiser.repository.AccountRepository;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("/accounts")
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountService {
+    private static final Object TRANSFER_LOCK = new Object();
+
     private AccountRepository accountRepository = AccountRepository.getInstance();
 
     @GET
-    public Collection<Account> getAllAccounts() {
-        return accountRepository.getAllAccounts();
+    public List<Account> getAllAccounts() {
+        List<Account> accounts;
+        synchronized (TRANSFER_LOCK) {
+            // TODO: pagination
+            accounts = new ArrayList<>(accountRepository.getAllAccounts());
+        }
+        return accounts;
     }
 
     // TODO: POST
@@ -33,18 +41,16 @@ public class AccountService {
 
     @POST
     @Path("/{id}/deposit")
-    public Account depositAccount(@PathParam("id") long id, @QueryParam("amount") double amount) {
-        var account = accountRepository.getAccount(id);
-        account.deposit(amount);
-        return account;
+    public Response depositAccount(@PathParam("id") long id, @QueryParam("amount") double amount) {
+        accountRepository.getAccount(id).deposit(amount);
+        return Response.noContent().build();
     }
 
     @POST
     @Path("/{id}/withdraw")
-    public Account withdrawAccount(@PathParam("id") long id, @QueryParam("amount") double amount) {
-        var account = accountRepository.getAccount(id);
-        account.withdraw(amount);
-        return account;
+    public Response withdrawAccount(@PathParam("id") long id, @QueryParam("amount") double amount) {
+        accountRepository.getAccount(id).withdraw(amount);
+        return Response.noContent().build();
     }
 
     @POST
@@ -52,8 +58,13 @@ public class AccountService {
     public Response transfer(@PathParam("id") long id, @QueryParam("to") long to, @QueryParam("amount") double amount) {
         // TODO: check input validity
 
-        accountRepository.getAccount(id).withdraw(amount);
-        accountRepository.getAccount(to).deposit(amount);
+        synchronized (TRANSFER_LOCK) {
+            var sender = accountRepository.getAccount(id);
+            var receiver = accountRepository.getAccount(to);
+
+            sender.withdraw(amount);
+            receiver.deposit(amount);
+        }
 
         return Response.noContent().build();
     }

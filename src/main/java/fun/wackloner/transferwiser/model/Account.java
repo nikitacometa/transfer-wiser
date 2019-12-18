@@ -25,12 +25,12 @@ public class Account {
         return balance;
     }
 
-    public void withdraw(double value) {
+    public synchronized void withdraw(double value) {
         // TODO: exception
         balance -= value;
     }
 
-    public void deposit(double value) {
+    public synchronized void deposit(double value) {
         balance += value;
     }
 }
