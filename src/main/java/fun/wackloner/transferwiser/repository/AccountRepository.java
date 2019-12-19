@@ -29,8 +29,10 @@ public class AccountRepository {
         return account;
     }
 
-    public boolean removeAccount(long id) {
-        return accounts.remove(id) != null;
+    public void removeAccount(long id) {
+        if (accounts.remove(id) == null) {
+            throw new InvalidAccountIdException(id);
+        }
     }
 
     public Collection<Account> getAllAccounts() {

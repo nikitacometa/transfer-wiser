@@ -1,12 +1,13 @@
 package fun.wackloner.transferwiser.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import fun.wackloner.transferwiser.exception.NotSufficientFundsException;
 
 public class Account {
-    private long id;
+    private final long id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String name;
-    private double balance; // TODO: BigDecimal
+    private final String name;
+    private double balance; // TODO: BigDecimal, final
 
     public Account(long id, String name) {
         this.id = id;
@@ -26,7 +27,9 @@ public class Account {
     }
 
     public synchronized void withdraw(double value) {
-        // TODO: exception
+        if (balance < value) {
+            throw new NotSufficientFundsException(id);
+        }
         balance -= value;
     }
 

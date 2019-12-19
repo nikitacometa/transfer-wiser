@@ -72,8 +72,7 @@ public class AccountService {
     @DELETE
     @Path("/{id}")
     public Response removeAccount(@PathParam("id") long id) {
-        // TODO: rework
-        boolean isRemoved = accountRepository.removeAccount(id);
-        return isRemoved ? Response.noContent().build() : Response.status(Response.Status.NOT_FOUND).build();
+        accountRepository.removeAccount(id);
+        return Response.noContent().build();
     }
 }
