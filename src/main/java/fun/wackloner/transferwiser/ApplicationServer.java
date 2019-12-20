@@ -5,10 +5,14 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.ApplicationPath;
 
 public class ApplicationServer {
+    private static final Logger log = LoggerFactory.getLogger(ApplicationServer.class);
+
     private static final int DEFAULT_SERVER_PORT = 8080;
     private final Server jettyServer;
 
@@ -17,10 +21,10 @@ public class ApplicationServer {
     }
 
     public static ApplicationServer newInstance() {
-        ApplicationConfig config = new ApplicationConfig();
-        ServletHolder servlet = new ServletHolder(new ServletContainer(config));
-        Server server = new Server(DEFAULT_SERVER_PORT);
-        ServletContextHandler contextHandler = new ServletContextHandler(server, "/*");
+        var config = new ApplicationConfig();
+        var servlet = new ServletHolder(new ServletContainer(config));
+        var server = new Server(DEFAULT_SERVER_PORT);
+        var contextHandler = new ServletContextHandler(server, "/*");
         contextHandler.addServlet(servlet, "/*");
 
         return new ApplicationServer(server);
@@ -31,7 +35,7 @@ public class ApplicationServer {
             jettyServer.start();
             jettyServer.join();
         } catch (Exception e) {
-            // TODO: log exception
+            log.error("Jetty server failed!", e);
         } finally {
             jettyServer.destroy();
         }

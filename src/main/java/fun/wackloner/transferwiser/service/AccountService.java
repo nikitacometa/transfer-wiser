@@ -15,7 +15,7 @@ import java.util.List;
 public class AccountService {
     private static final Object TRANSFER_LOCK = new Object();
 
-    private AccountRepository accountRepository = AccountRepository.getInstance();
+    private final AccountRepository accountRepository = AccountRepository.getInstance();
 
     @GET
     public List<Account> getAllAccounts() {
