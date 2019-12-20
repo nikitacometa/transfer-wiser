@@ -17,3 +17,13 @@ pre-installed container/server).
 Run below command to start server listening on port 8080.
 
 `./gradlew run`
+
+## API
+
+1. `GET /accounts?fromId=<fromId>&limit=<limit>` - get all accounts or limited by query parameters
+2. `GET /accounts/<id>` - get account with specified id
+3. `POST /accounts/create?name=<name>` - create new account with zero balance and provided name
+4. `POST /accounts/<id>/deposit?amount=<amount>` - deposit specified account with specified amount
+5. `POST /accounts/<id>/withdraw?amount=<amount>` - withdraw from specified account with specified amount
+6. `POST /accounts/<id>/transfer?to=<receiverId>&amount=<amount>` - transfer amount from one account to another
+7. `DELETE /accounts/<id>` - remove specified account
