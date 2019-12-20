@@ -9,6 +9,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import javax.ws.rs.ApplicationPath;
 
 public class ApplicationServer {
+    private static final int DEFAULT_SERVER_PORT = 8080;
     private final Server jettyServer;
 
     private ApplicationServer(Server jettyServer) {
@@ -16,10 +17,9 @@ public class ApplicationServer {
     }
 
     public static ApplicationServer newInstance() {
-        // TODO: extract constants
         ApplicationConfig config = new ApplicationConfig();
         ServletHolder servlet = new ServletHolder(new ServletContainer(config));
-        Server server = new Server(8080);
+        Server server = new Server(DEFAULT_SERVER_PORT);
         ServletContextHandler contextHandler = new ServletContextHandler(server, "/*");
         contextHandler.addServlet(servlet, "/*");
 

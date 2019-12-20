@@ -16,7 +16,7 @@ public class AccountRepository {
     private final Map<Long, Account> accounts = new ConcurrentHashMap<>();
 
     public Account createAccount(String name) {
-        var newAccount = new Account(nextId.getAndIncrement(), name);
+        var newAccount = Account.of(nextId.getAndIncrement(), name);
         accounts.put(newAccount.getId(), newAccount);
         return newAccount;
     }

@@ -57,8 +57,6 @@ public class AccountService {
     @POST
     @Path("/{id}/transfer")
     public Response transfer(@PathParam("id") long id, @QueryParam("to") long to, @QueryParam("amount") BigDecimal amount) {
-        // TODO: check input validity
-
         synchronized (TRANSFER_LOCK) {
             var sender = accountRepository.getAccount(id);
             var receiver = accountRepository.getAccount(to);
