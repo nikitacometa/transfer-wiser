@@ -24,6 +24,10 @@ public class Account {
         return new Account(id, null, balance);
     }
 
+    public static Account copy(Account account) {
+        return new Account(account.getId(), account.getName(), account.getBalance());
+    }
+
     private Account(long id, String name, BigDecimal balance) {
         this.id = id;
         this.name = name;

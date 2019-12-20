@@ -7,8 +7,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/accounts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,17 +18,19 @@ public class AccountService {
     private final AccountRepository accountRepository = AccountRepository.getInstance();
 
     @GET
-    public List<Account> getAllAccounts() {
+    public List<Account> getAccounts(@QueryParam("fromId") @DefaultValue("1") long fromId, @QueryParam("limit") @DefaultValue("-1") int limit) {
         List<Account> accounts;
         synchronized (TRANSFER_LOCK) {
-            // TODO: pagination
-            accounts = new ArrayList<>(accountRepository.getAllAccounts());
+            var stream = accountRepository.getAllAccounts().stream().skip(fromId - 1);
+            if (limit >= 0) {
+                stream = stream.limit(limit);
+            }
+            accounts = stream.map(Account::copy).collect(Collectors.toList());
         }
         return accounts;
     }
 
-    // TODO: POST
-    @GET
+    @POST
     @Path("/create")
     public Account createAccount(@QueryParam("name") String name) {
         return accountRepository.createAccount(name);

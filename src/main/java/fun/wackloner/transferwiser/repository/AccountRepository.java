@@ -2,8 +2,8 @@ package fun.wackloner.transferwiser.repository;
 
 import fun.wackloner.transferwiser.exception.InvalidAccountIdException;
 import fun.wackloner.transferwiser.model.Account;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
 import java.util.Map;
@@ -11,9 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class AccountRepository {
-    private static final Logger log = LoggerFactory.getLogger(AccountRepository.class);
+    private static final Logger log = LogManager.getLogger(AccountRepository.class);
 
-    // TODO: use guice
     private static final AccountRepository INSTANCE = new AccountRepository();
 
     private final AtomicLong nextId = new AtomicLong(1);

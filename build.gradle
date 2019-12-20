@@ -22,7 +22,8 @@ dependencies {
     implementation 'org.eclipse.jetty:jetty-server:9.4.24.v20191120'
     implementation 'org.eclipse.jetty:jetty-servlet:9.4.24.v20191120'
 
-    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.apache.logging.log4j:log4j-core:2.8'
+    implementation 'org.apache.logging.log4j:log4j-api:2.8'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
 }
