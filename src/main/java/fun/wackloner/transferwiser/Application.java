@@ -2,6 +2,6 @@ package fun.wackloner.transferwiser;
 
 public class Application {
     public static void main(String[] args) {
-        ApplicationServer.newInstance().run();
+        ApplicationServer.newInstance().start(true);
     }
 }

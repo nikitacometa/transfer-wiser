@@ -18,10 +18,13 @@ public class AccountService {
     private final AccountRepository accountRepository = AccountRepository.getInstance();
 
     @GET
-    public List<Account> getAccounts(@QueryParam("fromId") @DefaultValue("1") long fromId, @QueryParam("limit") @DefaultValue("-1") int limit) {
+    public List<Account> getAccounts(@QueryParam("fromId") @DefaultValue("-1") long fromId, @QueryParam("limit") @DefaultValue("-1") int limit) {
         List<Account> accounts;
         synchronized (TRANSFER_LOCK) {
-            var stream = accountRepository.getAllAccounts().stream().skip(fromId - 1);
+            var stream = accountRepository.getAllAccounts().stream();
+            if (fromId >= 0) {
+                stream = stream.filter(account -> account.getId() >= fromId);
+            }
             if (limit >= 0) {
                 stream = stream.limit(limit);
             }

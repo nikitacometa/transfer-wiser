@@ -5,12 +5,15 @@ import fun.wackloner.transferwiser.exception.InvalidAmountException;
 import fun.wackloner.transferwiser.exception.InsufficientFundsException;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Account {
-    private final long id;
+    private long id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private final String name;
-    private BigDecimal balance;
+    private String name;
+    private BigDecimal balance = BigDecimal.ZERO;
+
+    public Account() {}
 
     public static Account of(long id) {
         return new Account(id, null, BigDecimal.ZERO);
@@ -31,7 +34,7 @@ public class Account {
     private Account(long id, String name, BigDecimal balance) {
         this.id = id;
         this.name = name;
-        this.balance = balance;
+        this.balance = Objects.requireNonNull(balance);
     }
 
     public long getId() {
@@ -65,5 +68,29 @@ public class Account {
         if (amount.compareTo(BigDecimal.ZERO) < 1) {
             throw new InvalidAmountException();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Account)) {
+            return false;
+        }
+        var that = (Account) o;
+        var equalNames = (that.name == null && name == null) || (that.name != null && that.name.equals(name));
+        return that.id == id && equalNames && that.balance.equals(balance);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, balance);
+    }
+
+    @Override
+    public String toString() {
+        var nameString = (name == null) ? "" : String.format("name=%s, ", name);
+        return String.format("Account{id=%d, %sbalance=%s}", id, nameString, balance.toString());
     }
 }
