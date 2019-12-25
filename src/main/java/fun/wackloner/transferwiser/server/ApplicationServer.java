@@ -1,5 +1,6 @@
 package fun.wackloner.transferwiser.server;
 
+import fun.wackloner.transferwiser.repository.AccountRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
@@ -23,8 +24,8 @@ public class ApplicationServer {
         this.jettyServer = jettyServer;
     }
 
-    public static ApplicationServer newInstance() {
-        var config = new ApplicationConfig();
+    public static ApplicationServer newInstance(AccountRepository accountRepository) {
+        var config = new ApplicationConfig(accountRepository);
         var servlet = new ServletHolder(new ServletContainer(config));
         var server = new Server(SERVER_PORT);
         var contextHandler = new ServletContextHandler(server, "/*");

@@ -38,7 +38,7 @@ public class AccountService {
         return accounts;
     }
 
-    @GET
+    @POST
     @Path("/create")
     public Account createAccount(@QueryParam("name") String name) {
         return accountRepository.createAccount(name);

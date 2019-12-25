@@ -2,6 +2,7 @@ package fun.wackloner.transferwiser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fun.wackloner.transferwiser.model.Account;
+import fun.wackloner.transferwiser.repository.AccountRepository;
 import fun.wackloner.transferwiser.repository.InMemoryAccountRepository;
 import fun.wackloner.transferwiser.server.ApplicationServer;
 import org.eclipse.jetty.server.Response;
@@ -22,17 +23,22 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class APITest {
-    private static final ApplicationServer server = ApplicationServer.newInstance();
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    @BeforeAll
-    public static void setUp() {
-        server.start(false);
+    private static ApplicationServer server;
 
-        InMemoryAccountRepository repository = new InMemoryAccountRepository();
+    private static AccountRepository getTestRepository() {
+        var repository = new InMemoryAccountRepository();
         IntStream.range(0, 7).forEach((index) -> repository.createAccount(null));
         repository.getAccount(4).deposit(BigDecimal.TEN);
         repository.getAccount(6).deposit(BigDecimal.TEN);
+        return repository;
+    }
+
+    @BeforeAll
+    public static void setUp() {
+        server = ApplicationServer.newInstance(getTestRepository());
+        server.start(false);
     }
 
     @AfterAll

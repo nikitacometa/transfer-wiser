@@ -1,5 +1,6 @@
 package fun.wackloner.transferwiser;
 
+import fun.wackloner.transferwiser.repository.InMemoryAccountRepository;
 import fun.wackloner.transferwiser.server.ApplicationServer;
 
 /**
@@ -7,6 +8,7 @@ import fun.wackloner.transferwiser.server.ApplicationServer;
  */
 public class Application {
     public static void main(String[] args) {
-        ApplicationServer.newInstance().start(true);
+        var accountRepository = new InMemoryAccountRepository();
+        ApplicationServer.newInstance(accountRepository).start(true);
     }
 }
