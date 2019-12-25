@@ -10,6 +10,9 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.ws.rs.ApplicationPath;
 
+/**
+ * Class which creates and manages a server.
+ */
 public class ApplicationServer {
     private static final Logger log = LogManager.getLogger(ApplicationServer.class);
 

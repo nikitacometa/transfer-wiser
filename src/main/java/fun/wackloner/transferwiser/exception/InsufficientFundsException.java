@@ -4,6 +4,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * Signals that an account doesn't have enough money for withdrawal.
+ */
 @Provider
 public class InsufficientFundsException extends RuntimeException implements ExceptionMapper<InsufficientFundsException> {
     public InsufficientFundsException() {

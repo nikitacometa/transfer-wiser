@@ -4,6 +4,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * Signals that no account with provided id exists.
+ */
 @Provider
 public class InvalidAccountIdException extends RuntimeException implements ExceptionMapper<InvalidAccountIdException> {
     public InvalidAccountIdException() {

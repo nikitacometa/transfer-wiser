@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * In-memory storage for creating and managing accounts.
+ */
 public class AccountRepository {
     private static final Logger log = LogManager.getLogger(AccountRepository.class);
 

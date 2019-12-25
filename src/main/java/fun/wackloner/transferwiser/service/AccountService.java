@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class which serves requests.
+ */
 @Path("/accounts")
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountService {

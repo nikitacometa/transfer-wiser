@@ -4,6 +4,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * Signals that invalid amount of money was provided by a request.
+ */
 @Provider
 public class InvalidAmountException extends RuntimeException implements ExceptionMapper<InvalidAmountException> {
     public InvalidAmountException() {

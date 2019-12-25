@@ -7,6 +7,9 @@ import fun.wackloner.transferwiser.exception.InsufficientFundsException;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+/**
+ * Class representing a single account in the system.
+ */
 public class Account {
     private long id;
     @JsonInclude(JsonInclude.Include.NON_NULL)
