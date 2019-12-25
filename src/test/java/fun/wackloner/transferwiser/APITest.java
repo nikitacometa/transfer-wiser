@@ -2,7 +2,8 @@ package fun.wackloner.transferwiser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fun.wackloner.transferwiser.model.Account;
-import fun.wackloner.transferwiser.repository.AccountRepository;
+import fun.wackloner.transferwiser.repository.InMemoryAccountRepository;
+import fun.wackloner.transferwiser.server.ApplicationServer;
 import org.eclipse.jetty.server.Response;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,7 +29,7 @@ public class APITest {
     public static void setUp() {
         server.start(false);
 
-        AccountRepository repository = AccountRepository.getInstance();
+        InMemoryAccountRepository repository = new InMemoryAccountRepository();
         IntStream.range(0, 7).forEach((index) -> repository.createAccount(null));
         repository.getAccount(4).deposit(BigDecimal.TEN);
         repository.getAccount(6).deposit(BigDecimal.TEN);

@@ -1,5 +1,7 @@
 package fun.wackloner.transferwiser;
 
+import fun.wackloner.transferwiser.server.ApplicationServer;
+
 /**
  * Main application class.
  */

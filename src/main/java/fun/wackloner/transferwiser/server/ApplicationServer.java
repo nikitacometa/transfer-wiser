@@ -1,14 +1,12 @@
-package fun.wackloner.transferwiser;
+package fun.wackloner.transferwiser.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import javax.ws.rs.ApplicationPath;
 
 /**
  * Class which creates and manages a server.
@@ -55,13 +53,6 @@ public class ApplicationServer {
             jettyServer.stop();
         } catch (Exception e) {
             log.error("Failed to stop jetty server!", e);
-        }
-    }
-
-    @ApplicationPath("resources")
-    private static class ApplicationConfig extends ResourceConfig {
-        ApplicationConfig() {
-            packages("fun.wackloner.transferwiser");
         }
     }
 }
